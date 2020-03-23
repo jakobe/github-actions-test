@@ -21,7 +21,7 @@ jobs:
                     ... on PullRequest {
                       title
                       url
-                      number,
+                      number
                       timelineItems(last: 100, itemTypes: [LABELED_EVENT, UNLABELED_EVENT]) {
                         edges {
                           node {
