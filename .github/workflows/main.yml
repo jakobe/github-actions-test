@@ -12,7 +12,7 @@ jobs:
         uses: jakobe/find-pull-request@v.0.1-alpha
         id: find_pull_request
         with:
-          label: 'merge-ready'
+          label: 'merge:ready'
 #      - name: Get PRs ready for merge
 #        uses: octokit/graphql-action@v2.x
 #        id: get_merge_ready_prs
