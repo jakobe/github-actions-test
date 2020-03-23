@@ -1,0 +1,55 @@
+name: Merge Queue
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  label-next-up:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: octokit/graphql-action@v2.0.0
+      name: Get PRs ready for merge
+      id: get_merge_ready_prs
+      with:
+        query: |
+          query getMergeReadyPRs($queryString:String!) {
+            search(query: $queryString, type: ISSUE, first: 100) {
+              issueCount
+               edges {
+                node {
+                  ... on PullRequest {
+                    title
+                    url
+                    number,
+                    timelineItems(last: 100, itemTypes: [LABELED_EVENT, UNLABELED_EVENT]) {
+                      edges {
+                        node {
+                          __typename
+                          ... on LabeledEvent {
+                            createdAt
+                            label {
+                              name
+                            }
+                          }
+                          ... on UnlabeledEvent {
+                            createdAt
+                            label {
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        queryString: "repo:{{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
