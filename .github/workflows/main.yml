@@ -1,10 +1,8 @@
 name: Merge Queue
-
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   label-next-up:
@@ -15,8 +13,8 @@ jobs:
         id: get_merge_ready_prs
         with:
           query: |
-            query getMergeReadyPRs($queryString:String!) {
-              search(query: $queryString, type: ISSUE, first: 100) {
+            query getMergeReadyPRs($qwery:String!) {
+              search(query: $qwery, type: ISSUE, first: 100) {
                 issueCount
                 edges {
                   node {
@@ -48,7 +46,7 @@ jobs:
                 }
               }
             }
-          queryString: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
+          qwery: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
