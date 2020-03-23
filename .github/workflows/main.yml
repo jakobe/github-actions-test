@@ -49,7 +49,7 @@ jobs:
               }
             }
           }
-        queryString: "'repo:jakobe/github-actions-test'"
+        queryString: "repo:jakobe"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: "echo 'PRs ready to be merged: ${{ steps.get_merge_ready_prs.outputs.data }}'"
