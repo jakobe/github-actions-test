@@ -8,7 +8,7 @@ jobs:
   label-next-up:
     runs-on: ubuntu-latest
     steps:
-      - name: Find first PR matching the 'merge:ready' label
+      - name: Find first approved PR matching the 'merge:ready' label
         uses: jakobe/find-pull-request@master
         id: find_pull_request
         with:
