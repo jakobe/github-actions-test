@@ -8,45 +8,51 @@ jobs:
   label-next-up:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/graphql-action@v2.x
-        name: Get PRs ready for merge
-        id: get_merge_ready_prs
+      - name: Find first PR matching the 'merge:ready' label
+        uses: jakobe/find-pull-request@v.0.1-alpha
+        id: find_pull_request
         with:
-          query: |
-            query getMergeReadyPRs($query_exp:String!) {
-              search(query: $query_exp, type: ISSUE, first: 100) {
-                issueCount
-                edges {
-                  node {
-                    ... on PullRequest {
-                      title
-                      url
-                      number
-                      timelineItems(last: 100, itemTypes: [LABELED_EVENT, UNLABELED_EVENT]) {
-                        edges {
-                          node {
-                            __typename
-                            ... on LabeledEvent {
-                              createdAt
-                              label {
-                                name
-                              }
-                            }
-                            ... on UnlabeledEvent {
-                              createdAt
-                              label {
-                                name
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          query_exp: ${{ format('repo:{0}/{1} is:pr is:open review:none', github.event.repository.owner.name, github.event.repository.name) }}
+          label: 'merge-ready'
+#      - name: Get PRs ready for merge
+#        uses: octokit/graphql-action@v2.x
+#        id: get_merge_ready_prs
+#        with:
+#          query: |
+#            query getMergeReadyPRs($query_exp:String!) {
+#              search(query: $query_exp, type: ISSUE, first: 100) {
+#                issueCount
+#                edges {
+#                  node {
+#                    ... on PullRequest {
+#                      title
+#                      url
+#                      number
+#                      timelineItems(last: 100, itemTypes: [LABELED_EVENT, UNLABELED_EVENT]) {
+#                        edges {
+#                          node {
+#                            __typename
+#                            ... on LabeledEvent {
+#                              createdAt
+#                              label {
+#                                name
+#                              }
+#                            }
+#                            ... on UnlabeledEvent {
+#                              createdAt
+#                              label {
+#                                name
+#                              }
+#                            }
+#                          }
+#                        }
+#                      }
+#                    }
+#                  }
+#                }
+#              }
+#            }
+#          query_exp: ${{ format('repo:{0}/{1} is:pr is:open review:none', github.event.repository.owner.name, github.event.repository.name) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
+#      - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
+      - run: "echo 'PRs ready for merge: ${{ steps.find_pull_request.outputs.pull_request }}'"
