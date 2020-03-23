@@ -46,7 +46,8 @@ jobs:
                 }
               }
             }
-          query_exp: ${{ format('repo:{0}/{1} is:pr is:open review:approved', 'Bankdata', 'relationsbank') }}
+          query_exp: 'repo:Bankdata/relationsbank is:pr is:open'
+          #query_exp: ${{ format('repo:{0}/{1} is:pr is:open review:approved', 'Bankdata', 'relationsbank') }}
           #query_exp: ${{ format('repo:{0}/{1} is:pr is:open review:approved', github.event.repository.owner.name, github.event.repository.name) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
