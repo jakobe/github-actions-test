@@ -17,7 +17,7 @@ jobs:
                 issueCount
               }
             }
-          qwery: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}"
+          qwery: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'latest release: ${{ steps.get_latest_release.outputs.data }}'"
