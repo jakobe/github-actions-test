@@ -13,7 +13,7 @@ jobs:
         id: get_merge_ready_prs
         with:
           query: |
-            query getMergeReadyPRs($qwery:String!) {
+            query getMergeReadyPRs($queryString:String!) {
               search(query: $queryString, type: ISSUE, first: 100) {
                 issueCount
                 edges {
