@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find first PR matching the 'merge:ready' label
-        uses: jakobe/find-pull-request@v.0.1-alpha
+        uses: jakobe/find-pull-request@master
         id: find_pull_request
         with:
           label: 'merge:ready'
