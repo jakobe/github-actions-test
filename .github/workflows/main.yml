@@ -9,15 +9,14 @@ on:
 jobs:
   label-next-up:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: octokit/graphql-action@v2.0.0
+      - uses: octokit/graphql-action@v2.x
         name: Get PRs ready for merge
         id: get_merge_ready_prs
         with:
           query: |
-            query getMergeReadyPRs($queryString:String!) {
-              search(query: $queryString, type: ISSUE, first: 100) {
+            query release($queryString:String!) {
+              search(query: $qwery, type: ISSUE, first: 100) {
                 issueCount
                 edges {
                   node {
@@ -49,7 +48,7 @@ jobs:
                 }
               }
             }
-          queryString: "repo:{{ $github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
+          queryString: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
