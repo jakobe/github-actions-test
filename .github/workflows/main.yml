@@ -14,7 +14,7 @@ jobs:
         with:
           query: |
             query getMergeReadyPRs($qwery:String!) {
-              search(query: $qwery, type: ISSUE, first: 100) {
+              search(query: $queryString, type: ISSUE, first: 100) {
                 issueCount
                 edges {
                   node {
@@ -46,7 +46,7 @@ jobs:
                 }
               }
             }
-          qwery: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
+          queryString: "${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PRs ready for merge: ${{ steps.get_merge_ready_prs.outputs.data }}'"
