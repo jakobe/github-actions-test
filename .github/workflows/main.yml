@@ -49,7 +49,7 @@ jobs:
               }
             }
           }
-        queryString: "repo:${{ github.event.repository.owner.name }}/${{ github.event.repository.name }} is:pr is:open review:approved"
+        queryString: "repo:jakobe/github-actions-test is:pr is:open review:approved"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: "echo 'PRs ready to be merged: ${{ steps.get_merge_ready_prs.outputs.data }}'"
