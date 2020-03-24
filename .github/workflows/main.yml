@@ -13,7 +13,7 @@ jobs:
         id: find_pull_request
         with:
           label: 'merge:ready'
-          order: last
+          order: first
 #      - name: Get PRs ready for merge
 #        uses: octokit/graphql-action@v2.x
 #        id: get_merge_ready_prs
