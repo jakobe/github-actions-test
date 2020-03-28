@@ -1,9 +1,11 @@
 name: Merge Queue
 on:
   push:
-    branches:
-      - master
-
+    branches: [ master ]
+  pull_request:
+    types: [labeled, unlabeled]
+  pull_request_review:
+    branches: [ master ]
 jobs:
   label-next-up:
     runs-on: ubuntu-latest
@@ -13,4 +15,6 @@ jobs:
         id: automerge_labeler
         with:
           label-candidate: 'merge:ready'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
