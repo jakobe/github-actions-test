@@ -19,10 +19,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.AUTOMERGE_GITHUB_TOKEN }}
       - run: "echo 'github.event.pull_request.mergeable_state: ${{ github.event.pull_request.mergeable_state }}'"
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
-  automerge:
-    needs: automerge-label
-    runs-on: ubuntu-latest
-    steps:
+#  automerge:
+#    needs: automerge-label
+#    runs-on: ubuntu-latest
+#    steps:
+      - name: TestStep pull_request is null
+        if: steps.automerge_labeler.outputs.pull_request == null
+        run: "echo 'automerge_labeler.outputs.pull_request is null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+      - name: TestStep pull_request is NOT null
+        if: steps.automerge_labeler.outputs.pull_request != null
+        run: "echo 'automerge_labeler.outputs.pull_request is NOT null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
       - name: Automerge
         if: steps.automerge_labeler.outputs.pull_request != null
         uses: "pascalgn/automerge-action@v0.8.0"
@@ -32,9 +38,3 @@ jobs:
           UPDATE_LABELS: automerge
           MERGE_RETRIES: 6
           MERGE_RETRY_SLEEP: 10000 # sets the time to sleep between retries, in milliseconds
-      - name: TestStep1
-        if: steps.automerge_labeler.outputs.pull_request == null
-        run: "echo 'automerge_labeler.outputs.pull_request is null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
-      - name: TestStep3
-        if: steps.automerge_labeler.outputs.pull_request != null
-        run: "echo 'automerge_labeler.outputs.pull_request is NOT null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
