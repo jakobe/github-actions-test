@@ -32,3 +32,15 @@ jobs:
           UPDATE_LABELS: automerge
           MERGE_RETRIES: 6
           MERGE_RETRY_SLEEP: 10000 # sets the time to sleep between retries, in milliseconds
+      - name: TestStep1
+        if: steps.automerge_labeler.outputs.pull_request == null
+      - run: "echo 'automerge_labeler.outputs.pull_request is null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+      - name: TestStep2
+        if: steps.automerge_labeler.outputs.pull_request == undefined
+      - run: "echo 'automerge_labeler.outputs.pull_request is undefined: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+      - name: TestStep3
+        if: steps.automerge_labeler.outputs.pull_request != null
+      - run: "echo 'automerge_labeler.outputs.pull_request is NOT null: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+      - name: TestStep4
+        if: steps.automerge_labeler.outputs.pull_request != undefined
+      - run: "echo 'automerge_labeler.outputs.pull_request is NOT undefined: ${{ steps.automerge_labeler.outputs.pull_request }}'"
