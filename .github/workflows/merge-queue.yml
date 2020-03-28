@@ -16,7 +16,7 @@ jobs:
         with:
           label-candidate: 'merge:ready'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTOMERGE_GITHUB_TOKEN }}
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
   automerge:
     needs: automerge-label
