@@ -7,7 +7,7 @@ on:
   pull_request_review:
     branches: [ master ]
 jobs:
-  automerge:
+  automerge-label:
     runs-on: ubuntu-latest
     steps:
       - name: Find and label automerge candidate matching the 'merge:ready' label
@@ -18,6 +18,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
       - name: Automerge
         uses: "pascalgn/automerge-action@v0.8.0"
         env:
