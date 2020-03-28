@@ -19,7 +19,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
       - name: Automerge
-        uses: "pascalgn/automerge-action@0.8.0"
+        uses: "pascalgn/automerge-action@v0.8.0"
         env:
           GITHUB_TOKEN: "${{ secrets.AUTOMERGE_GITHUB_TOKEN }}"
           MERGE_LABELS: automerge
