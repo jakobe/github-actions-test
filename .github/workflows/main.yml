@@ -9,10 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find and label automerge candidate matching the 'merge:ready' label
-        uses: jakobe/find-pull-request@master
-        id: find_pull_request
+        uses: jakobe/automerge-labeler@master
+        id: automerge_labeler
         with:
           label-candidate: 'merge:ready'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo 'PR ready for automerge: ${{ steps.find_pull_request.outputs.pull_request }}'"
+      - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
