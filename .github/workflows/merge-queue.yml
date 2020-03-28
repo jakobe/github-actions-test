@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automerge
+        if: steps.automerge_labeler.outputs.pull_request
         uses: "pascalgn/automerge-action@v0.8.0"
         env:
           GITHUB_TOKEN: "${{ secrets.AUTOMERGE_GITHUB_TOKEN }}"
