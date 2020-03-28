@@ -7,7 +7,7 @@ on:
   pull_request_review:
     branches: [ master ]
 jobs:
-  label-next-up:
+  automerge:
     runs-on: ubuntu-latest
     steps:
       - name: Find and label automerge candidate matching the 'merge:ready' label
@@ -16,5 +16,13 @@ jobs:
         with:
           label-candidate: 'merge:ready'
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTOMERGE_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo 'PR ready for automerge: ${{ steps.automerge_labeler.outputs.pull_request }}'"
+      - name: Automerge
+        uses: "pascalgn/automerge-action@0.8.0"
+        env:
+          GITHUB_TOKEN: "${{ secrets.AUTOMERGE_GITHUB_TOKEN }}"
+          MERGE_LABELS: automerge
+          UPDATE_LABELS: automerge
+          MERGE_RETRIES: 6
+          MERGE_RETRY_SLEEP: 10000 # sets the time to sleep between retries, in milliseconds
